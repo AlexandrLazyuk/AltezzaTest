@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <select name="report" class="form-select" aria-label="Default select example">
+          <option selected>Выберите период</option>
+          <option value="3">3 суток</option>
+          <option value="6">6 суток</option>
+        </select>
+            <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
