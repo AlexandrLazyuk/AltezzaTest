@@ -1,5 +1,9 @@
 import datetime
 from datetime import date, timedelta
+
+from django.core import serializers
+import json
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from shop.models import Category, Product, Order
 from cart.forms import CartAddProductForm
@@ -33,9 +37,11 @@ def product_detail(request, id, slug):
 def report(request):
     if 'report' in request.POST:
         period = request.POST['report']
-        startdate = datetime.date.today()
-        enddate = startdate + timedelta(days=6)
-        Order.objects.all.filter(date__range=[startdate, enddate])
+        start_date = datetime.date.today()
+        end_date = start_date - timedelta(days=int(period))
+        orders = Order.objects.filter(date_create__range=[end_date, start_date])
+        orders_is_json = serializers.serialize('json', orders)
+        return HttpResponse(orders_is_json, content_type='application/json')
     return render(request=request, template_name='shop/report.html')
 
 
